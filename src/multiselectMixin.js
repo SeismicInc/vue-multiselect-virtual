@@ -377,7 +377,7 @@ export default {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.internalValueMap.map(element => element[this.trackBy])
+        return this.internalValueMap
       } else {
         return this.internalValue
       }
