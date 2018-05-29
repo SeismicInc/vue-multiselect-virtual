@@ -1,5 +1,5 @@
 {
-  "name": "vue-multiselect",
+  "name": "vue-multiselect-virtual",
   "version": "2.1.0",
   "private": false,
   "scripts": {
@@ -112,5 +112,8 @@
     "dist",
     "src"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "vue-virtual-scroll-list": "^1.2.5",
+    "vue-virtual-scroller": "^0.11.7"
+  }
 }

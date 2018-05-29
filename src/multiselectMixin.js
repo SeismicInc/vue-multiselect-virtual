@@ -65,9 +65,12 @@ export default {
   data () {
     return {
       search: '',
+      optionsMap: {},
       isOpen: false,
       prefferedOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      internalValueLength: 0,
+      internalValueMap: {}
     }
   },
   props: {
@@ -332,6 +335,9 @@ export default {
     ) {
       this.select(this.filteredOptions[0])
     }
+    if (typeof this.options[0] === 'object' && this.trackBy) {
+      this.options.forEach((element, index) => { this.optionsMap[element[this.trackBy]] = index })
+    }
   },
   computed: {
     internalValue () {
@@ -371,10 +377,16 @@ export default {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.internalValue.map(element => element[this.trackBy])
+        return this.internalValueMap
       } else {
         return this.internalValue
       }
+    },
+    buildValueMap () {
+      this.internalValueMap = {}
+      this.internalValue.forEach((element, index) => {
+        this.internalValueMap[element[this.trackBy]] = index
+      })
     },
     optionKeys () {
       const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
@@ -395,9 +407,15 @@ export default {
         this.search = ''
         this.$emit('input', this.multiple ? [] : null)
       }
+      this.buildValueMap()
     },
     search () {
       this.$emit('search-change', this.search, this.id)
+    },
+    options () {
+      if (typeof this.options[0] === 'object' && this.trackBy) {
+        this.options.forEach((element, index) => { this.optionsMap[element[this.trackBy]] = index })
+      }
     }
   },
   methods: {
@@ -462,7 +480,10 @@ export default {
       const opt = this.trackBy
         ? option[this.trackBy]
         : option
-      return this.valueKeys.indexOf(opt) > -1
+      if (!this.trackBy) {
+        return this.valueKeys.indexOf(opt) > -1
+      }
+      return typeof this.valueKeys[opt] !== 'undefined'
     },
     /**
      * Returns empty string when options is null/undefined
@@ -591,7 +612,7 @@ export default {
       }
 
       const index = typeof option === 'object'
-        ? this.valueKeys.indexOf(option[this.trackBy])
+        ? this.valueKeys[option[this.trackBy]]
         : this.valueKeys.indexOf(option)
 
       this.$emit('remove', option, this.id)

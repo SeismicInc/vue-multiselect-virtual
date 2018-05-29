@@ -1,3 +1,4 @@
+let i = 0
 export default {
   data () {
     return {
@@ -38,9 +39,12 @@ export default {
   },
   methods: {
     optionHighlight (index, option) {
+      // console.log(index, option, props)
+      // i++
+      // console.log('highlight', i)
       return {
         'multiselect__option--highlight': index === this.pointer && this.showPointer,
-        'multiselect__option--selected': this.isSelected(option)
+        'multiselect__option--selected': typeof this.internalValueMap[option[this.trackBy]] !== 'undefined'
       }
     },
     groupHighlight (index, selectedGroup) {

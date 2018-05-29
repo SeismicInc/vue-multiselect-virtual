@@ -63,7 +63,7 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span 
+        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle">
@@ -88,33 +88,25 @@
               </span>
             </li>
             <template v-if="!max || internalValue.length < max">
-              <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
-                <span
-                  v-if="!(option && (option.$isLabel || option.$isDisabled))"
-                  :class="optionHighlight(index, option)"
-                  @click.stop="select(option)"
-                  @mouseenter.self="pointerSet(index)"
-                  :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
-                  :data-selected="selectedLabelText"
-                  :data-deselect="deselectLabelText"
-                  class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
-                    </slot>
-                </span>
-                <span
-                  v-if="option && (option.$isLabel || option.$isDisabled)"
-                  :data-select="groupSelect && selectGroupLabelText"
-                  :data-deselect="groupSelect && deselectGroupLabelText"
-                  :class="groupHighlight(index, option)"
-                  @mouseenter.self="groupSelect && pointerSet(index)"
-                  @mousedown.prevent="selectGroup(option)"
-                  class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
-                    </slot>
-                </span>
-              </li>
+              <virtual-scroller :size="40" :remain="6">
+              <scroll-item
+                      v-for="(option, index) of filteredOptions"
+                      :option=option :index="index" :key="index"
+                      :class-name="optionHighlight"
+                      :select="select"
+                      :pointer-set="pointerSet"
+                      :select-label-text="selectLabelText"
+                      :deselect-label-text="deselectLabelText"
+                      :selected-label-text="selectedLabelText"
+                      :get-option-label="getOptionLabel"
+                      :select-group-label-text="selectGroupLabelText"
+                      :deselect-group-label-text="deselectGroupLabelText"
+                      :group-highlight="groupHighlight"
+                      :select-group="selectGroup"
+              >
+              </scroll-item>
+
+              </virtual-scroller>
             </template>
             <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
@@ -134,11 +126,19 @@
 </template>
 
 <script>
+  // import Vue from 'vue'
+  import virtualList from 'vue-virtual-scroll-list'
+  // Vue.component('virtual-scroller', VirtualScroller)
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import ScrollItem from './ScrollItem'
 
   export default {
     name: 'vue-multiselect',
+    components: {
+      ScrollItem,
+      'virtual-scroller': virtualList
+    },
     mixins: [multiselectMixin, pointerMixin],
     props: {
 
