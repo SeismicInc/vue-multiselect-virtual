@@ -377,16 +377,10 @@ export default {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.internalValueMap
+        return this.internalValueMap.map(element => element[this.trackBy])
       } else {
         return this.internalValue
       }
-    },
-    buildValueMap () {
-      this.internalValueMap = {}
-      this.internalValue.forEach((element, index) => {
-        this.internalValueMap[element[this.trackBy]] = index
-      })
     },
     optionKeys () {
       const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
@@ -419,6 +413,13 @@ export default {
     }
   },
   methods: {
+    buildValueMap () {
+      this.internalValueMap = {}
+      this.internalValue.forEach((element, index) => {
+        this.internalValueMap[element[this.trackBy]] = index
+      })
+    },
+
     /**
      * Returns the internalValue in a way it can be emited to the parent
      * @returns {Object||Array||String||Integer}
