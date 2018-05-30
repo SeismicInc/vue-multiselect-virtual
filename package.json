@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect-virtual",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "private": false,
   "scripts": {
     "test": "vue-cli-service test",

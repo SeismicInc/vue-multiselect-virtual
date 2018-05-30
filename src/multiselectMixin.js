@@ -338,6 +338,7 @@ export default {
     if (typeof this.options[0] === 'object' && this.trackBy) {
       this.options.forEach((element, index) => { this.optionsMap[element[this.trackBy]] = index })
     }
+    this.buildValueMap()
   },
   computed: {
     internalValue () {
