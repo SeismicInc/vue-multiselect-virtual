@@ -344,6 +344,9 @@
       showSearchInput () {
         return this.searchable && (this.hasSingleSelectedSlot && (this.visibleSingleValue || this.visibleSingleValue === 0) ? this.isOpen : true)
       }
+    },
+    mounted () {
+      window.select = this
     }
   }
 </script>

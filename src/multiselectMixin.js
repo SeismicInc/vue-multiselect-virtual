@@ -374,6 +374,8 @@ export default {
         }
       }
 
+      this.$emit('update:searchValues', search === '' ? [] : options.slice(0, this.optionsLimit));
+
       return options.slice(0, this.optionsLimit)
     },
     valueKeys () {
@@ -612,6 +614,7 @@ export default {
         this.deactivate()
         return
       }
+      if (typeof option === 'undefined') return
 
       const index = typeof option === 'object'
         ? this.valueKeys[option[this.trackBy]]
