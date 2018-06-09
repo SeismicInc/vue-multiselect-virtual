@@ -374,7 +374,7 @@ export default {
         }
       }
 
-      this.$emit('update:searchValues', search === '' ? [] : options.slice(0, this.optionsLimit));
+      this.$emit('update:searchValues', search === '' ? [] : options.slice(0, this.optionsLimit))
 
       return options.slice(0, this.optionsLimit)
     },
