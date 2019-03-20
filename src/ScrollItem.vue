@@ -45,7 +45,8 @@
       selectGroupLabelText: String,
       deselectGroupLabelText: String,
       groupHighlight: Function,
-      selectGroup: Function
+      selectGroup: Function,
+      search: String
     },
     mounted () {
       window.optionHighlight = this.optionHighlight

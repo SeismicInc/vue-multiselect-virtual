@@ -103,6 +103,7 @@
                       :deselect-group-label-text="deselectGroupLabelText"
                       :group-highlight="groupHighlight"
                       :select-group="selectGroup"
+                      :search="search"
               >
               </scroll-item>
 
