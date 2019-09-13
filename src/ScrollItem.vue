@@ -34,7 +34,8 @@
     name: 'ScrollItem',
     props: {
       'index': Number,
-      'option': Object,
+      'option': {},
+      groupSelect: {},
       'className': Function,
       'select': Function,
       'pointerSet': Function,
